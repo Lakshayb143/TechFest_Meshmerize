@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # TechFest_Meshmerize
 
 # Line Follower Robot (Maze Solving Robot) <br>
@@ -64,3 +65,6 @@ The sample path for the competition <br><br>
 
 
 ![Check Points](Checkpoints.png)
+=======
+
+>>>>>>> 546b662f1ddb2336ffc890cb054790f4890fdb05
