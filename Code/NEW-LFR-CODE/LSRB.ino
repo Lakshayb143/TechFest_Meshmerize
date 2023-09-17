@@ -83,4 +83,3 @@ void leftHandWall(){
 		turnAround();
 	}
 }
-view rawLeftHandWall.c hosted with ❤ by GitHub

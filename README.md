@@ -20,6 +20,7 @@ The drive system consists of a mechanical chassis, a set of motors, gears and wh
     - [Medium Article]( https://towardinfinity.medium.com/coding-a-line-follower-robot-using-lsrb-and-finding-the-shortest-path-d906ffec71d)
     - [Repository 1](https://github.com/Chamal-Peiris/arduino-line-follow-robot-with-pid-algorithm/blob/main/pid%20line%20follow.ino#L26)
     - [Repository 2](https://github.com/utk7arsh/Autonomous-LFR-EE3-Spring-2022/blob/main/PID_car_code.ino)
+    - [Repository - Meshmerize](https://github.com/HuCode-Geek/Meshmerize.git)
 	- [Website](https://embedjournal.com/shortest-path-line-follower-robot-logic-revealed/#:~:text=The%20secret%20behind%20the%20shortest,remembering%20and%20some%20are%20not)
 
 <br>

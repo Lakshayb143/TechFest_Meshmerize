@@ -35,7 +35,7 @@ int sensor7 ;
 #define Ki 0.4
 #define Kd 1.25// experiment to determine this, slowly increase the speeds and adjust this value. ( Note: Kp < Kd) 
 int P, I, D;
-float error;
+float error = 0;
 float pidValue = 0;
 float previousError=0, previous_I=0;
 
@@ -60,7 +60,7 @@ int THRESHOLD;
 // FOR STORING THE PATH DETAILS
 
 char path[120] = {};
-int pathLength;
+int pathLength = 0;
 int readLength;
 
 void readSensor(){
@@ -72,7 +72,7 @@ void readSensor(){
   sensor6 = analogRead(IR6);
   sensor7 = analogRead(IR7);
 
-  calculate_error(300 , 600);
+  calculate_error(300 , 600); // Need to change the values according to sensor
 
 }
 
@@ -131,6 +131,42 @@ void stopMotors()
   delay(6000);
 }
 
+void left(){
+  calculate_PID();
+  digitalWrite(left_motor_ac,HIGH);
+  digitalWrite(left_motor_c,LOW);
+  digitalWrite(right_motor_c,HIGH);
+  digitalWrite(right_motor_ac,LOW);
+  analogWrite(left_motor,speed_left_motor);
+  analogWrite(right_motor,speed_right_motor);
+
+}
+
+void right(){
+  calculate_PID();   
+  digitalWrite(right_motor_ac,HIGH);
+  digitalWrite(right_motor_c,LOW);
+  digitalWrite(left_motor_c,HIGH);
+  digitalWrite(left_motor_ac,LOW);
+  analogWrite(left_motor,speed_left_motor);
+  analogWrite(right_motor,speed_right_motor);
+}
+
+
+
+void straight()
+{
+  calculate_PID();
+  digitalWrite(left_motor_c,HIGH);
+  digitalWrite(right_motor_c,HIGH);
+  digitalWrite(left_motor_ac,LOW);
+  digitalWrite(right_motor_ac,LOW);
+  analogWrite(left_motor,speed_left_motor);
+  analogWrite(right_motor,speed_right_motor);
+
+}
+
+
 
 // <----------------------------------------------------Setup and Loop------------------------------------------------------------------>
 
@@ -171,8 +207,8 @@ void loop()
   speed_left_motor = speed_left_motor - pidValue;
   speed_right_motor = speed_right_motor + pidValue;
   // The motor speed should not exceed the max PWM value
-  constrain(speed_left_motor,0,255);
-  constrain(speed_right_motor,0,255);
+  speed_left_motor = constrain(speed_left_motor,0,255);
+  speed_right_motor = constrain(speed_right_motor,0,255);
 
   readSensor();
   // it will only move forward if two sensors are on the line
