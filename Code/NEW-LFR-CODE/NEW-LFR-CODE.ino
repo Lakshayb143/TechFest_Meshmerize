@@ -290,7 +290,7 @@ void loop()
     right();
   }
 
-  else if (sensor1 > THRESHOLD && sensor2 > THRESHOLD && sensor3 < THRESHOLD && sensor4 < THRESHOLD && sensor5 < THRESHOLD && sensor6 < THRESHOLD && sensor7 < THRESHOLD)
+  else if (sensor1 > THRESHOLD && sensor2 > THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 < THRESHOLD && sensor7 < THRESHOLD)
   {
     left();
   }
