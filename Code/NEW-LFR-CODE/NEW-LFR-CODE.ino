@@ -3,12 +3,21 @@
 // <----------------------------------------------------Variables and Constants------------------------------------------------------------------>
 
 // Defining Motor pins
+// NANO
 const int left_motor = 3;
-const int right_motor = 6;
-const int left_motor_c = 4;
-const int left_motor_ac = 2;
-const int right_motor_c = 8;
-const int right_motor_ac = 7;
+const int right_motor = 5;
+const int left_motor_c = 2;
+const int left_motor_ac = 4;
+const int right_motor_c = 7;
+const int right_motor_ac = 6;
+
+// UNO
+// const int left_motor = 6;
+// const int right_motor = 5;
+// const int left_motor_c = 7;
+// const int left_motor_ac = 8;
+// const int right_motor_c = 2;
+// const int right_motor_ac = 4;
 
 // Defining the IR array sensors
 #define IR1 A0
@@ -49,8 +58,8 @@ float previousError = 0, previous_I = 0;
 // SPEED VALUES
 #define MaxSpeed 240 // max speed of the robot
 // #define BaseSpeed 110
-int speed_left_motor = 110;
-int speed_right_motor = 110;
+int speed_left_motor = 50;
+int speed_right_motor = 50;
 
 int THRESHOLD;
 
@@ -182,7 +191,7 @@ void stopMotors()
 
 void left()
 {
-  PID();
+  // PID();
   digitalWrite(left_motor_ac, HIGH);
   digitalWrite(left_motor_c, LOW);
   digitalWrite(right_motor_c, HIGH);
@@ -193,7 +202,7 @@ void left()
 
 void right()
 {
-  PID();
+  // PID();
   digitalWrite(right_motor_ac, HIGH);
   digitalWrite(right_motor_c, LOW);
   digitalWrite(left_motor_c, HIGH);
@@ -204,7 +213,7 @@ void right()
 
 void straight()
 {
-  PID();
+  // PID();
   digitalWrite(left_motor_c, HIGH);
   digitalWrite(right_motor_c, HIGH);
   digitalWrite(left_motor_ac, LOW);
@@ -213,7 +222,53 @@ void straight()
   analogWrite(right_motor, speed_right_motor);
 }
 
-// <----------------------------------------------------Setup and Loop------------------------------------------------------------------>
+// <-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --Motor Functions-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+void turn (char direction){
+  PID();
+  switch (direction)
+  {
+
+    case 'L':
+      digitalWrite(left_motor_ac, HIGH);
+      digitalWrite(left_motor_c, LOW);
+      digitalWrite(right_motor_c, HIGH);
+      digitalWrite(right_motor_ac, LOW);
+      analogWrite(left_motor, speed_left_motor);
+      analogWrite(right_motor, speed_right_motor);
+      break;
+    
+    case 'R':
+      digitalWrite(right_motor_ac, HIGH);
+      digitalWrite(right_motor_c, LOW);
+      digitalWrite(left_motor_c, HIGH);
+      digitalWrite(left_motor_ac, LOW);
+      analogWrite(left_motor, speed_left_motor);
+      analogWrite(right_motor, speed_right_motor);
+      break;
+    
+    case 'S':
+      digitalWrite(left_motor_c, HIGH);
+      digitalWrite(right_motor_c, HIGH);
+      digitalWrite(left_motor_ac, LOW);
+      digitalWrite(right_motor_ac, LOW);
+      analogWrite(left_motor, speed_left_motor);
+      analogWrite(right_motor, speed_right_motor);
+      break;
+    
+    case 'B':
+      digitalWrite(left_motor_ac, HIGH);
+      digitalWrite(left_motor_c, LOW);
+      digitalWrite(right_motor_c, HIGH);
+      digitalWrite(right_motor_ac, LOW);
+      analogWrite(left_motor, speed_left_motor);
+      analogWrite(right_motor, speed_right_motor);
+      break;
+
+
+  
+  }
+}
+    // <----------------------------------------------------Setup and Loop------------------------------------------------------------------>
 
 void setup()
 {
@@ -244,11 +299,11 @@ void loop()
 {
 
   // Calculating the effective motor speed:
-  speed_left_motor = speed_left_motor - pidValue;
-  speed_right_motor = speed_right_motor + pidValue;
+  // speed_left_motor = speed_left_motor - pidValue;
+  // speed_right_motor = speed_right_motor + pidValue;
   // The motor speed should not exceed the max PWM value
-  speed_left_motor = constrain(speed_left_motor, 0, 255);
-  speed_right_motor = constrain(speed_right_motor, 0, 255);
+  // speed_left_motor = constrain(speed_left_motor, 0, 255);
+  // speed_right_motor = constrain(speed_right_motor, 0, 255);
 
   readSensor();
   // it will only move forward if two sensors are on the line
