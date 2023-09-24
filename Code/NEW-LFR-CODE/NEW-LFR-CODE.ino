@@ -189,6 +189,16 @@ void stopMotors()
   delay(6000);
 }
 
+void Finish()
+{
+  Serial.println("Finish");
+  digitalWrite(left_motor_c, LOW);
+  digitalWrite(right_motor_c, LOW);
+  digitalWrite(left_motor_ac, LOW);
+  digitalWrite(right_motor_ac, LOW);
+  delay(10000);
+}
+
 void left()
 {
   // PID();
@@ -268,6 +278,75 @@ void turn (char direction){
   
   }
 }
+
+// <----------------------------------------------------Conditions------------------------------------------------------------------>
+
+void conditions()
+{
+  if (S1 > THRESHOLD && S2 > THRESHOLD && S3 > THRESHOLD && S4 > THRESHOLD && S5 > THRESHOLD && S6 > THRESHOLD && S7 > THRESHOLD) // BBBBBBB
+  {
+      delay(10);
+      left();
+      Serial.print("left");
+      delay(1000);
+
+      if (S1 > THRESHOLD && S2 > THRESHOLD && S3 > THRESHOLD && S4 > THRESHOLD && S5 > THRESHOLD && S6 > THRESHOLD && S7 > THRESHOLD) // BBBBBBB
+      {
+      Finish();
+      Serial.println("Stop");
+      }
+
+      else
+      {
+      left();
+      Serial.println("left");
+      delay(10);
+      }
+  }
+
+  else if (S1 > THRESHOLD && S2 > THRESHOLD && S3 > THRESHOLD && S4 > THRESHOLD && S5 > THRESHOLD && S6 < THRESHOLD && S7 < THRESHOLD) // BBBBBWW
+  {
+      left();
+      Serial.println("left");
+  }
+
+  else if (S1 > THRESHOLD && S2 > THRESHOLD && S3 < THRESHOLD && S4 < THRESHOLD && S5 < THRESHOLD && S6 > THRESHOLD && S7 > THRESHOLD) // BBWWWBB
+  {
+      left();
+      Serial.println("left");
+  }
+
+  else if (S1 > THRESHOLD && S2 > THRESHOLD && S3 < THRESHOLD && S4 < THRESHOLD && S5 < THRESHOLD && S6 < THRESHOLD && S7 < THRESHOLD) // BBWWWWW
+  {
+      left();
+      Serial.println("left");
+  }
+
+  else if (S1 < THRESHOLD && S2 < THRESHOLD && S3 > THRESHOLD && S4 > THRESHOLD && S5 > THRESHOLD && S6 > THRESHOLD && S7 > THRESHOLD) // WWBBBBB
+  {
+      straight();
+      Serial.println("Straight");
+  }
+
+  else if (S1 < THRESHOLD && S2 < THRESHOLD && S3 > THRESHOLD && S4 > THRESHOLD && S5 > THRESHOLD && S6 < THRESHOLD && S7 < THRESHOLD) // WWBBBWW
+  {
+      straight();
+      Serial.println("Straight");
+  }
+
+  else if (S1 < THRESHOLD && S2 < THRESHOLD && S3 < THRESHOLD && S4 < THRESHOLD && S5 < THRESHOLD && S6 > THRESHOLD && S7 > THRESHOLD) // WWWWWBB
+  {
+      right();
+      Serial.println("Right");
+  }
+  else if (S1 < THRESHOLD && S2 < THRESHOLD && S3 < THRESHOLD && S4 < THRESHOLD && S5 < THRESHOLD && S6 < THRESHOLD && S7 < THRESHOLD) // WWWWWWW
+  {
+      Serial.println("Left");
+
+      left();
+  }
+}
+
     // <----------------------------------------------------Setup and Loop------------------------------------------------------------------>
 
 void setup()
@@ -307,54 +386,8 @@ void loop()
 
   readSensor();
   // it will only move forward if two sensors are on the line
-  if (sensor1 > THRESHOLD && sensor2 > THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 > THRESHOLD && sensor7 > THRESHOLD)
-  {
-    delay(10);
-    left();
-    delay(10);
-
-    if (sensor1 > THRESHOLD && sensor2 > THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 > THRESHOLD && sensor7 > THRESHOLD)
-    {
-      stopMotors();
-    }
-
-    else
-    {
-      left();
-      delay(10);
-    }
-  }
-
-  else if (sensor1 > THRESHOLD && sensor2 > THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 < THRESHOLD && sensor7 < THRESHOLD)
-  {
-    left();
-  }
-
-  else if (sensor1 < THRESHOLD && sensor2 < THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 > THRESHOLD && sensor7 > THRESHOLD)
-  {
-    straight();
-  }
-
-  else if (sensor1 < THRESHOLD && sensor2 < THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 < THRESHOLD && sensor7 < THRESHOLD)
-  {
-    straight();
-  }
-
-  else if (sensor1 < THRESHOLD && sensor2 < THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 > THRESHOLD && sensor7 > THRESHOLD)
-  {
-    right();
-  }
-
-  else if (sensor1 > THRESHOLD && sensor2 > THRESHOLD && sensor3 > THRESHOLD && sensor4 > THRESHOLD && sensor5 > THRESHOLD && sensor6 < THRESHOLD && sensor7 < THRESHOLD)
-  {
-    left();
-  }
-  else if (sensor1 < THRESHOLD && sensor2 < THRESHOLD && sensor3 < THRESHOLD && sensor4 < THRESHOLD && sensor5 < THRESHOLD && sensor6 < THRESHOLD && sensor7 < THRESHOLD)
-  {
-
-    left();
-  }
-
+  
+  conditions();
   // else it we will call the LSRB algorithm
 }
 
